@@ -1194,6 +1194,142 @@ img {
   margin-top: 3px;
 }
 
+/* ==========================================================================
+   Tarieven Tabel (Desktop 3-Koloms & Mobile Card/Row Transform)
+   ========================================================================== */
+.pricing-table-panel {
+  padding: 40px;
+  margin-bottom: 60px;
+}
+
+.rates-heading {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.rates-subheading {
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.table-responsive {
+  width: 100%;
+}
+
+.rates-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.rates-table thead tr {
+  border-bottom: 2px solid var(--glass-border);
+}
+
+.rates-table th {
+  padding: 12px 16px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.rates-table tbody tr {
+  border-bottom: 1px solid var(--glass-border);
+  transition: background-color var(--transition-fast);
+}
+
+.rates-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.rates-table tbody tr:hover {
+  background-color: var(--pill-bg);
+}
+
+.rates-table td {
+  padding: 14px 16px;
+  font-size: 0.95rem;
+}
+
+.rate-col-title {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.rate-col-duration {
+  color: var(--text-secondary);
+}
+
+.rate-col-price {
+  text-align: right;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.rate-col-price.highlight-price {
+  color: var(--accent);
+}
+
+/* Mobiele Weergave (< 680px): Geen horizontaal scrollen, perfecte Apple-rij weergave */
+@media (max-width: 680px) {
+  .pricing-table-panel {
+    padding: 24px 18px !important;
+    margin-bottom: 40px;
+  }
+
+  .rates-table,
+  .rates-table tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .rates-table thead {
+    display: none;
+  }
+
+  .rates-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: 
+      "title price"
+      "duration price";
+    padding: 14px 0;
+    row-gap: 4px;
+    column-gap: 14px;
+    align-items: center;
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .rates-table td {
+    padding: 0;
+  }
+
+  .rate-col-title {
+    grid-area: title;
+    font-size: 0.98rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .rate-col-duration {
+    grid-area: duration;
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    line-height: 1.35;
+  }
+
+  .rate-col-price {
+    grid-area: price;
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-align: right;
+    align-self: center;
+  }
+}
+
 /* Feature Cards Grid (Specializations & USPs) */
 .features-grid {
   display: grid;
