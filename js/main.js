@@ -335,14 +335,22 @@ function initAmbientBackground() {
   const layer = document.createElement("div");
   layer.className = "bg-ambient-layer";
   
-  // 6 smaakvolle, asymmetrisch verdeelde vormen over de hele lengte
+  // Smaakvol verdeelde vormen: zijkanten én een rustige centrale as zodat tegels prachtig oplichten
   const shapes = [
+    // Bovenste sectie
     { size: 520, top: "4%", left: "-4%", rot: 24, delay: "0s", op: 0.22 },
-    { size: 480, top: "22%", right: "4%", rot: -36, delay: "-5s", op: 0.24 },
-    { size: 430, top: "41%", left: "12%", rot: 48, delay: "-11s", op: 0.20 },
-    { size: 500, top: "59%", right: "8%", rot: -20, delay: "-3s", op: 0.23 },
-    { size: 450, top: "76%", left: "-2%", rot: 58, delay: "-8s", op: 0.21 },
-    { size: 540, top: "91%", right: "20%", rot: -15, delay: "-14s", op: 0.25 }
+    { size: 490, top: "16%", left: "32%", rot: -18, delay: "-6s", op: 0.25 }, // Midden-boven
+    { size: 480, top: "24%", right: "4%", rot: -36, delay: "-10s", op: 0.24 },
+
+    // Middelste sectie (recht achter & tussen de tegels)
+    { size: 440, top: "39%", left: "10%", rot: 48, delay: "-14s", op: 0.22 },
+    { size: 540, top: "49%", left: "42%", rot: -26, delay: "-4s", op: 0.28 }, // Midden-centraal (achter de specialisatie-kaarten)
+    { size: 480, top: "60%", right: "8%", rot: 22, delay: "-8s", op: 0.23 },
+
+    // Onderste sectie
+    { size: 470, top: "73%", left: "36%", rot: 35, delay: "-2s", op: 0.24 }, // Midden-onder (achter kernwaarden/FAQ)
+    { size: 450, top: "83%", left: "-2%", rot: 58, delay: "-12s", op: 0.21 },
+    { size: 540, top: "93%", right: "18%", rot: -15, delay: "-15s", op: 0.25 }
   ];
   
   const svgContent = encodeURIComponent(`
