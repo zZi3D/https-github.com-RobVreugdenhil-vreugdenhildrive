@@ -4,6 +4,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initPreloader();
   initTheme();
   initMobileMenu();
   initCourseTabs();
@@ -372,5 +373,131 @@ function initAmbientBackground() {
   });
   
   document.body.prepend(layer);
+}
+
+/* ==========================================================================
+   11. Preloader: "The Route" — Minimalistische Weglijn
+   ========================================================================== */
+window.initPreloader = initPreloader;
+function initPreloader(force = false) {
+  const isIntroForced = force || window.location.search.includes('intro');
+  const alreadySeen = sessionStorage.getItem('rv_preloader_seen');
+
+  // Toon alleen bij eerste bezoek van de sessie, tenzij geforceerd
+  if (alreadySeen && !isIntroForced) {
+    const existing = document.querySelector('.app-preloader');
+    if (existing) existing.remove();
+    return;
+  }
+
+  document.documentElement.classList.remove('no-preloader');
+
+  let preloader = document.querySelector('.app-preloader');
+  if (!preloader) {
+    preloader = document.createElement('div');
+    preloader.className = 'app-preloader';
+    preloader.innerHTML = `
+      <div class="preloader-card">
+        <div class="preloader-brand">
+          <img src="images/logo.png" alt="Logo Rijschool Vreugdenhil" class="preloader-logo">
+          <div class="preloader-brand-text">
+            <span class="preloader-brand-title">Rijschool Vreugdenhil</span>
+            <span class="preloader-brand-subtitle">Westland & Den Haag</span>
+          </div>
+        </div>
+
+        <div class="preloader-route-svg-wrap">
+          <svg class="preloader-route-svg" viewBox="0 0 340 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="routeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#0071e3" />
+                <stop offset="50%" stop-color="#389bf2" />
+                <stop offset="100%" stop-color="#2bd4ff" />
+              </linearGradient>
+            </defs>
+            <!-- Startpunt stip -->
+            <circle class="route-start-point" cx="20" cy="52" r="3" />
+            <!-- Finish doelwit / ring -->
+            <circle id="routeFinishTarget" class="route-finish-target" cx="318" cy="42" r="8" />
+            <!-- Achtergrond weglijn -->
+            <path class="route-bg-track" d="M 20,52 C 85,16 135,78 205,36 C 255,4 278,60 318,42" />
+            <!-- Geanimeerde neon-blauwe route -->
+            <path id="routeActivePath" class="route-active-track" d="M 20,52 C 85,16 135,78 205,36 C 255,4 278,60 318,42" />
+            <!-- Koplamp baken / tracer bolletje -->
+            <circle id="routeBeacon" class="route-car-beacon" r="5" cx="20" cy="52" />
+          </svg>
+        </div>
+
+        <p class="preloader-caption">
+          Jouw route naar het rijbewijs
+          <span class="preloader-caption-dots"><span>.</span><span>.</span><span>.</span></span>
+        </p>
+
+        <div class="preloader-status-pill">
+          <span class="preloader-status-indicator"></span>
+          <span>Klaar voor de start!</span>
+        </div>
+      </div>
+    `;
+    document.body.prepend(preloader);
+  }
+
+  const activePath = preloader.querySelector('#routeActivePath');
+  const beacon = preloader.querySelector('#routeBeacon');
+
+  if (activePath) {
+    const totalLength = activePath.getTotalLength ? activePath.getTotalLength() : 360;
+    activePath.style.strokeDasharray = totalLength;
+    activePath.style.strokeDashoffset = totalLength;
+
+    let startTime = null;
+    const drawDuration = 1800; // ms: kalme, vloeiende route (totaal ~2.5s beleving)
+
+    function animateRoute(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / drawDuration, 1);
+      // Easing: soepel versnellen en vertragen
+      const ease = progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+      
+      const currentOffset = totalLength * (1 - ease);
+      activePath.style.strokeDashoffset = currentOffset;
+
+      if (beacon && activePath.getPointAtLength) {
+        const point = activePath.getPointAtLength(totalLength * ease);
+        beacon.setAttribute('cx', point.x);
+        beacon.setAttribute('cy', point.y);
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(animateRoute);
+      } else {
+        // Voltooid: baken sluit naadloos aan op het eindpunt van de route
+        const endPoint = activePath.getPointAtLength(totalLength);
+        beacon.setAttribute('cx', endPoint.x);
+        beacon.setAttribute('cy', endPoint.y);
+        beacon.setAttribute('r', '7');
+        beacon.style.filter = 'drop-shadow(0 0 16px #2bd4ff) drop-shadow(0 0 8px #ffffff)';
+
+        const finishTarget = preloader.querySelector('#routeFinishTarget');
+        if (finishTarget) {
+          finishTarget.style.opacity = '1';
+          finishTarget.style.stroke = '#2bd4ff';
+        }
+
+        // Rustig 550ms pauzemoment op de bestemming alvorens zacht weg te faden
+        setTimeout(() => {
+          preloader.classList.add('fade-out');
+          sessionStorage.setItem('rv_preloader_seen', 'true');
+          setTimeout(() => {
+            if (preloader.parentNode) preloader.remove();
+          }, 600);
+        }, 550);
+      }
+    }
+
+    setTimeout(() => {
+      requestAnimationFrame(animateRoute);
+    }, 100);
+  }
 }
 

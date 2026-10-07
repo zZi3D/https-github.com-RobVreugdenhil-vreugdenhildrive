@@ -25,7 +25,7 @@
   <meta name="twitter:image" content="https://www.rijschoolvreugdenhil.nl/images/Bannervreugdenhil.jpeg">
 
   <link rel="icon" type="image/png" href="images/logo.png">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=3">
 
   <!-- Schema.org JSON-LD Structured Data for Local Business SEO -->
   <script type="application/ld+json">
@@ -68,6 +68,11 @@
       "worstRating": "1"
     }
   }
+  </script>
+  <script>
+    if (sessionStorage.getItem('rv_preloader_seen') && !window.location.search.includes('intro')) {
+      document.documentElement.classList.add('no-preloader');
+    }
   </script>
 </head>
 <body>
@@ -626,6 +631,10 @@
       <div class="footer-bottom">
         <div>
           © <span class="current-year">2026</span> Rijschool Vreugdenhil. Alle rechten voorbehouden.
+          <span style="margin: 0 8px; opacity: 0.4;">•</span>
+          <button type="button" class="btn-replay-intro" onclick="window.initPreloader ? window.initPreloader(true) : location.reload();" title="Bekijk het laadscherm opnieuw">
+            ↺ Herbekijk introductie
+          </button>
         </div>
         <div class="footer-socials">
           <a href="https://www.facebook.com/people/Rijschool-Vreugdenhil/61570730446154/" target="_blank" rel="noopener" class="social-icon-link" aria-label="Facebook">
@@ -639,7 +648,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=4"></script>
 </body>
 </html>
 
