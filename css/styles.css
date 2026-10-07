@@ -137,31 +137,34 @@ body {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(75px);
+  filter: blur(65px) brightness(1);
   opacity: var(--base-op, 0.22);
   animation: floatAmbient 16s infinite alternate ease-in-out;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
 }
 
 [data-theme="dark"] .bg-shape {
   --base-op: 0.38;
 }
 
-/* Rustig ademend en subtiel zwevend achtergrondeffect */
+/* Rustig ademend en subtiel zwevend achtergrondeffect met verhoogde brightness en scherpte bij ademen */
 @keyframes floatAmbient {
   0% {
     transform: translate3d(0, 0, 0) rotate(var(--base-rot, 0deg)) scale(0.92);
-    opacity: calc(var(--base-op, 0.22) * 0.88);
+    opacity: calc(var(--base-op, 0.22) * 0.85);
+    filter: blur(68px) brightness(0.95);
   }
   50% {
-    transform: translate3d(18px, -24px, 0) rotate(calc(var(--base-rot, 0deg) + 5deg)) scale(1.14);
-    opacity: calc(var(--base-op, 0.22) * 1.18);
+    transform: translate3d(18px, -24px, 0) rotate(calc(var(--base-rot, 0deg) + 5deg)) scale(1.18);
+    opacity: calc(var(--base-op, 0.22) * 1.5);
+    filter: blur(52px) brightness(1.4);
   }
   100% {
     transform: translate3d(-14px, 18px, 0) rotate(calc(var(--base-rot, 0deg) - 4deg)) scale(0.96);
-    opacity: calc(var(--base-op, 0.22) * 0.94);
+    opacity: calc(var(--base-op, 0.22) * 0.92);
+    filter: blur(64px) brightness(1.05);
   }
 }
 
