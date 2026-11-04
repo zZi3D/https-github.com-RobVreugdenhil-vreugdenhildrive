@@ -461,6 +461,10 @@ img {
 }
 
 /* Glass Utility Classes */
+.text-nowrap {
+  white-space: nowrap;
+}
+
 .glass-panel {
   background: var(--glass-bg);
   backdrop-filter: blur(24px) saturate(180%);
@@ -783,6 +787,7 @@ img {
   line-height: 1.08;
   letter-spacing: -0.035em;
   margin-bottom: 20px;
+  text-wrap: balance;
 }
 
 .hero-title .gradient-text {
