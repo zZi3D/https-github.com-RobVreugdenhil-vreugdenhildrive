@@ -793,7 +793,9 @@ img {
 .hero-title .gradient-text {
   background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  padding-right: 0.08em;
 }
 
 .hero-subtitle {
